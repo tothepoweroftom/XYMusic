@@ -142,7 +142,7 @@ function measurement() {
 	fullY = canvasDestH;
 
 	unitOne = (canvasA.width/100); // USED ON GUI
-	if (unitOne<3) {
+	if (unitOne<2) {
 		unitOne = 1;
 	}
 
