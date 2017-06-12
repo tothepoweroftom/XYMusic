@@ -85,6 +85,7 @@ var dragged = 'undefined';
 
 
 function setup() {
+  measurement();
 
 	////////////// SETUP CANVAS ////////////
   frameRate(25);
@@ -100,7 +101,6 @@ function setup() {
     //SETUP XY MODEL ========-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-0=-0=-000=-0=-0=-000=-0=-0=-000=-0=-000
 
 	// SET CANVAS & DRAWING POSITIONS //
-	measurement();
   XYModel = new XYModel(unitOne, canvasA, cxa);
   XYModel.randomInit();
   // XYModel.draw();
