@@ -4,9 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>XYMusic</title>
-    <script src="libraries/p5.js" type="text/javascript"></script>
+    <!-- <script src="libraries/p5.js" type="text/javascript"></script>
     <script src="libraries/p5.dom.js" type="text/javascript"></script>
-    <script src="libraries/p5.sound.js" type="text/javascript"></script>
+    <script src="libraries/p5.sound.js" type="text/javascript"></script> -->
+    <script src="libraries/Tone.js" type="text/javascript"></script>
+    <script src="libraries/nexusUI.js" type="text/javascript"></script>
+
 
     <script src="XYModel.js" type="text/javascript"></script>
 
@@ -19,21 +22,60 @@
         }
 
         canvas {
-          padding-left: 0;
-          padding-top: 50px;
-          padding-right: 0;
-          margin-left: auto;
-          margin-right: auto;
-          display: block;
-          width: 80%;
+            padding-left: 0;
+            padding-top: 50px;
+            padding-right: 100px;
+            margin-left: auto;
+            margin-right: auto;
+            display: table;
+            margin: 0 auto;
+            z-index: 1;
+        }
 
+        .dials {
+            width: 100px;
+            height: 100px;
+            z-index: 2;
+            position: relative;
+        }
+
+        #left,
+        #middle,
+        #right {
+            display: block;
+            *display: inline;
+            zoom: 1;
+            vertical-align: top;
+            font-size: 12px;
+        }
+
+        #left {
+            width: 25%;
+            background: blue;
+        }
+
+        #middle {
+            width: 50%;
+            background: green;
+        }
+
+        #right {
+            width: 25%;
+            background: yellow;
         }
     </style>
 </head>
 
 <body onresize="measurement()">
     <canvas id="grid" class="unselectable"></canvas>
-    <div id="sharing" class="unselectable"></div>
+    <!-- <canvas id="grid2" class="unselectable"></canvas> -->
+    <div id="dials">
+
+        <canvas  class="left" nx="dial" height="10" width="10" min="0.01" max="4.0" step = "0.01"></canvas>
+        <canvas  class="middle" nx="dial" height="10" width="10" min="-1.0" max="1.0" step = "0.01"></canvas>
+        <canvas  class="right" nx="dial" height="10" width="10" min="-1.0" max="1.0" step = "0.01"></canvas>
+    </div>
+
     <script src="Main.js" type="text/javascript"></script>
 
 </body>

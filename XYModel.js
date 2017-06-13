@@ -1,15 +1,15 @@
-function XYModel(cellsize, grid, context) {
+function XYModel(cellsize, grid, gridNumber, context) {
     this.ready = false;
     this.lastDrawTime = 0;
     this.fps = 0;
-
+    this.t = 0;
     //Grid sizes and drawing
-    this.ni = 32;
-    this.nj = 32;
+    this.ni = gridNumber;
+    this.nj = gridNumber;
     this.cellsize = cellsize || 1;
     this.grid = grid;
-    this.grid.width = cellsize * this.ni*2;
-    this.grid.height = cellsize * this.nj*2;
+    // this.grid.width = cellsize * this.ni*4;
+    // this.grid.height = cellsize * this.nj*4;
     this.context = context || this.grid.getContext('2d');
 
     //Array of phases
@@ -22,10 +22,12 @@ function XYModel(cellsize, grid, context) {
     this.T = 0.1;
 
     //Magnetic Field
-    this.B = 0;
+    this.B = 0.0;
 
     //Coupling Constant Thing
-    this.J = 0.1;
+    this.J = 1.0;
+
+    this.pause = false;
 
 }
 
@@ -38,12 +40,16 @@ XYModel.prototype.randomInit = function() {
     }
 }
 
+XYModel.prototype.setT = function(_T) {
+    this.T = _T;
+}
 
 XYModel.prototype.draw = function() {
-    var t = 100;
     // console.log(t);
-    // setTimeout(this.draw, 1);
-    t++;
+
+
+    setTimeout(this.draw, 1);
+    this.t++;
     var drawi = new Array();
     var drawj = new Array();
     for (var c = 0; c < 360; c++) {
@@ -61,16 +67,16 @@ XYModel.prototype.draw = function() {
             f += (j < this.nj - 1 ? Math.sin(this.phases[i][j] - this.phases[i][j + 1]) : 0);
 
 
-        f *= this.J;
-        f += this.T * (2 * Math.random() - 1);
-        f += this.B * Math.sin(this.phases[i][j]);
-        newphases[i][j] = this.phases[i][j] - f;
+            f *= this.J;
+            f += this.T * (2 * Math.random() - 1);
+            f += this.B * Math.sin(this.phases[i][j]);
+            newphases[i][j] = this.phases[i][j] - f;
 
-        var c = rad2deg(newphases[i][j]);
-        // console.log("c======" + c);
-        drawi[c].push(i);
-        drawj[c].push(j);
-      }
+            var c = rad2deg(newphases[i][j]);
+            // console.log("c======" + c);
+            drawi[c].push(i);
+            drawj[c].push(j);
+        }
     }
 
     var tempphases = this.phases;
@@ -80,9 +86,12 @@ XYModel.prototype.draw = function() {
     //Do the actual drawing ================
     for (var c = 0; c < 360; c++) {
         for (var n = 0; n < drawi[c].length; n++) {
-            if (n == 0) this.context.fillStyle = "hsl(" + c + ", 100%, 50%)";
-            this.context.fillRect(drawi[c][n] * this.cellsize*0.7, drawj[c][n] * this.cellsize*0.8,
-                this.cellsize+this.cellsize*0.5, this.cellsize-this.cellsize*0.99);
+            if (n == 0) this.context.fillStyle = "hsl(" + c + ", 60%, 40%)";
+            this.context.fillRect(drawi[c][n] * this.cellsize,
+                drawj[c][n] * this.cellsize,
+                this.cellsize,
+                this.cellsize
+            );
             // this.context.ellipse(drawi[c][n] * this.cellsize, drawj[c][n] * this.cellsize, this.cellsize, this.cellsize, c, c+10, true);
         }
     }
@@ -90,18 +99,18 @@ XYModel.prototype.draw = function() {
 
 
 function rad2deg(angrad) {
-  var angdeg = (angrad / (2*Math.PI) * 360) % 360;
-  if (angdeg < 0) angdeg += 360;
-  return Math.floor(angdeg);
+    var angdeg = (angrad / (2 * Math.PI) * 360) % 360;
+    if (angdeg < 0) angdeg += 360;
+    return Math.floor(angdeg);
 }
 
 function deg2rad(deg) {
-  var angrad = deg*2*Math.PI/360 % 2*Math.PI;
-  return angrad;
+    var angrad = deg * 2 * Math.PI / 360 % 2 * Math.PI;
+    return angrad;
 }
 
 function mod(a, b) {
-  var notMod = a % b;
-  if (notMod < 0) notMod += b;
-  return notMod;
+    var notMod = a % b;
+    if (notMod < 0) notMod += b;
+    return notMod;
 }

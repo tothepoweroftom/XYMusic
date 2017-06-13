@@ -6,7 +6,7 @@
 // INIT //
 var canvasA;
 var cxa;
-var FPS = 60;
+var FPS = 30;
 
 var scene = 0;
 var mode = 1; // build/play
@@ -73,7 +73,7 @@ var dragOffY = 0;
 var dragged = 'undefined';
 
 
-
+var gridNumber = 100;
 
 
 
@@ -84,11 +84,23 @@ var dragged = 'undefined';
 //--------------------------------------------------------------------------------------------
 
 
+nx.onload = function() {
+  dial1.on('*', function(data) {
+    console.log(data.value);
+    XYModel.setT(data.value);
+  })
+  dial2.on('*', function(data) {
+    XYModel.B = data.value;
+  })
+  dial3.on('*', function(data) {
+    XYModel.J = data.value;
+  })
+}
+
 function setup() {
-  measurement();
 
 	////////////// SETUP CANVAS ////////////
-  frameRate(25);
+  // frameRate(FPS);
 	canvasA = document.getElementById("grid");
 	// canvasA.addEventListener("mousedown", getPosition, false);
 	// canvasA.addEventListener("mouseup", mouseRelease, false);
@@ -97,11 +109,12 @@ function setup() {
 	  event.preventDefault();
 	}, false);
     cxa = canvasA.getContext("2d");
+    measurement();
 
     //SETUP XY MODEL ========-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-0=-0=-000=-0=-0=-000=-0=-0=-000=-0=-000
 
 	// SET CANVAS & DRAWING POSITIONS //
-  XYModel = new XYModel(unitOne, canvasA, cxa);
+  XYModel = new XYModel(unitOne, canvasA, gridNumber, cxa);
   XYModel.randomInit();
   // XYModel.draw();
 
@@ -109,7 +122,7 @@ function setup() {
 } // END INIT
 
 
-
+setup();
 
 
 function draw() {
@@ -120,7 +133,7 @@ function draw() {
 
 
 
-
+draw();
 
 
 
@@ -129,8 +142,8 @@ function draw() {
 // DO OUR SCALING //
 function measurement() {
 
-	canvasDestW = window.innerWidth;
-	canvasDestH = window.innerHeight;
+	canvasDestW = window.innerWidth * 0.25;
+	canvasDestH = canvasDestW;
 	canvasA.width  = canvasDestW;
 	canvasA.height = canvasDestH;
 
@@ -141,7 +154,7 @@ function measurement() {
 	fullX = canvasA.width;
 	fullY = canvasDestH;
 
-	unitOne = (canvasA.width/100); // USED ON GUI
+	unitOne = (canvasA.width/(gridNumber)); // USED ON GUI
 	if (unitOne<2) {
 		unitOne = 1;
 	}
