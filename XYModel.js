@@ -45,10 +45,10 @@ XYModel.prototype.setT = function(_T) {
 }
 
 XYModel.prototype.draw = function() {
-    // console.log(t);
+    console.log(this.t);
 
 
-    setTimeout(this.draw, 1);
+    // setTimeout(this.draw, 1);
     this.t++;
     var drawi = new Array();
     var drawj = new Array();

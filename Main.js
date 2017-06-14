@@ -73,7 +73,15 @@ var dragOffY = 0;
 var dragged = 'undefined';
 
 
-var gridNumber = 100;
+var gridNumber = 128;
+
+Tone.Transport.timeSignature = [6, 4];
+Tone.Transport.bpm.value = 100;
+
+Tone.Transport.loop = true;
+Tone.Transport.loopStart = '0';
+Tone.Transport.loopEnd = '1m';
+Tone.Transport.start("+0.1");
 
 
 
@@ -132,8 +140,8 @@ function draw() {
 }
 
 
+var loop = new Tone.Loop(draw, "16n").start(0);
 
-draw();
 
 
 
@@ -155,7 +163,7 @@ function measurement() {
 	fullY = canvasDestH;
 
 	unitOne = (canvasA.width/(gridNumber)); // USED ON GUI
-	if (unitOne<2) {
+	if (unitOne<1) {
 		unitOne = 1;
 	}
 
